@@ -10,6 +10,10 @@ class NewProject extends Component {
         this.hasErrorFor = this.hasErrorFor.bind(this);
         this.renderErrorFor = this.renderErrorFor.bind(this);
     }
+    componentDidMount() {
+        console.log("cdm new project create");
+        this.props.loadForm();
+    }
     /**
      * Post Form data with ajax
      */
@@ -56,6 +60,7 @@ class NewProject extends Component {
     }
 
     render() {
+        console.log("render newProject");
         return (
             <div className="container py-4">
                 <div className="row justify-content-center">

@@ -61623,6 +61623,12 @@ var inputName = function inputName(value) {
   };
 };
 
+var loadProjectCreateForm = function loadProjectCreateForm() {
+  return {
+    type: _constants__WEBPACK_IMPORTED_MODULE_0__["LOAD_PROJECT_CREATE_FORM"]
+  };
+};
+
 var _projectCreateSuccess = function projectCreateSuccess() {
   return {
     type: _constants__WEBPACK_IMPORTED_MODULE_0__["PROJECT_CREATED_SUCCESSFULLY"]
@@ -61645,6 +61651,9 @@ var _projectValidationErrors = function projectValidationErrors(errors) {
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
+    loadForm: function loadForm() {
+      dispatch(loadProjectCreateForm());
+    },
     changeNameState: function changeNameState(val) {
       dispatch(inputName(val));
     },
@@ -61974,12 +61983,18 @@ function (_Component) {
     _this.renderErrorFor = _this.renderErrorFor.bind(_assertThisInitialized(_this));
     return _this;
   }
-  /**
-   * Post Form data with ajax
-   */
-
 
   _createClass(NewProject, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      console.log("cdm new project create");
+      this.props.loadForm();
+    }
+    /**
+     * Post Form data with ajax
+     */
+
+  }, {
     key: "handleCreateNewProject",
     value: function handleCreateNewProject(event) {
       var _this2 = this;
@@ -62024,6 +62039,7 @@ function (_Component) {
     value: function render() {
       var _this3 = this;
 
+      console.log("render newProject");
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "container py-4"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -62374,7 +62390,7 @@ function (_Component) {
 /*!*****************************************!*\
   !*** ./resources/js/constants/index.js ***!
   \*****************************************/
-/*! exports provided: LIST_PROJECTS_BEGIN, LIST_PROJECTS_SUCCESS, LIST_PROJECTS_ERROR, INPUT_PROJECT_NAME, INPUT_PROJECT_DESCRIPTION, PROJECT_CREATED_SUCCESSFULLY, PROJECT_VALIDATION_ERRORS, GET_TASKS, INPUT_TASK, ADD_TASK, ADD_TASK_VALIDATION_ERRORS, MARK_TASK_COMPLETE */
+/*! exports provided: LIST_PROJECTS_BEGIN, LIST_PROJECTS_SUCCESS, LIST_PROJECTS_ERROR, INPUT_PROJECT_NAME, INPUT_PROJECT_DESCRIPTION, PROJECT_CREATED_SUCCESSFULLY, PROJECT_VALIDATION_ERRORS, GET_TASKS, INPUT_TASK, ADD_TASK, ADD_TASK_VALIDATION_ERRORS, MARK_TASK_COMPLETE, LOAD_PROJECT_CREATE_FORM */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -62391,6 +62407,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ADD_TASK", function() { return ADD_TASK; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ADD_TASK_VALIDATION_ERRORS", function() { return ADD_TASK_VALIDATION_ERRORS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MARK_TASK_COMPLETE", function() { return MARK_TASK_COMPLETE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LOAD_PROJECT_CREATE_FORM", function() { return LOAD_PROJECT_CREATE_FORM; });
 var LIST_PROJECTS_BEGIN = "LIST_PROJECTS_BEGIN";
 var LIST_PROJECTS_SUCCESS = "LIST_PROJECTS_SUCCESS";
 var LIST_PROJECTS_ERROR = "LIST_PROJECTS_ERROR";
@@ -62403,6 +62420,7 @@ var INPUT_TASK = "INPUT_TASK";
 var ADD_TASK = "ADD_TASK";
 var ADD_TASK_VALIDATION_ERRORS = "ADD_TASK_VALIDATION_ERRORS";
 var MARK_TASK_COMPLETE = "MARK_TASK_COMPLETE";
+var LOAD_PROJECT_CREATE_FORM = "LOAD_PROJECT_CREATE_FORM";
 
 /***/ }),
 
@@ -62459,6 +62477,11 @@ function inputChangeReducer() {
   var action = arguments.length > 1 ? arguments[1] : undefined;
 
   switch (action.type) {
+    case _constants__WEBPACK_IMPORTED_MODULE_0__["LOAD_PROJECT_CREATE_FORM"]:
+      return _objectSpread({}, state, {
+        errors: []
+      });
+
     case _constants__WEBPACK_IMPORTED_MODULE_0__["INPUT_PROJECT_NAME"]:
       return _objectSpread({}, state, {
         name: action.payload

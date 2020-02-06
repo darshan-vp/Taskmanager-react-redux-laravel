@@ -2,7 +2,8 @@ import {
     INPUT_PROJECT_NAME,
     INPUT_PROJECT_DESCRIPTION,
     PROJECT_CREATED_SUCCESSFULLY,
-    PROJECT_VALIDATION_ERRORS
+    PROJECT_VALIDATION_ERRORS,
+    LOAD_PROJECT_CREATE_FORM
 } from "../constants";
 
 export default function inputChangeReducer(
@@ -10,6 +11,11 @@ export default function inputChangeReducer(
     action
 ) {
     switch (action.type) {
+        case LOAD_PROJECT_CREATE_FORM:
+            return {
+                ...state,
+                errors: []
+            };
         case INPUT_PROJECT_NAME:
             return {
                 ...state,
