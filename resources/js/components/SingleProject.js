@@ -2,6 +2,10 @@ import axios from "axios";
 import React, { Component } from "react";
 import { mapStateToProps, mapDispatchToProps } from "../actions/taskList";
 import { connect } from "react-redux";
+import { FaArrowLeft } from "react-icons/fa";
+import { Link } from "react-router-dom";
+import { ClipLoader } from "react-spinners";
+import { withTheme } from "styled-components";
 
 class SingleProject extends Component {
     constructor(props) {
@@ -18,7 +22,10 @@ class SingleProject extends Component {
         // Get projectId from URL
         console.log("componentDidMount");
         const projectId = this.props.match.params.id;
-        this.props.getTasks(projectId);
+        // Show loader and Fetch Task
+        this.props.initialLoadingAsync(projectId);
+
+        // this.props.getTasks(projectId);
     }
 
     // Add new task in project
@@ -68,14 +75,55 @@ class SingleProject extends Component {
     }
 
     render() {
-        const { project, tasks } = this.props;
+        const { project, tasks, loading } = this.props;
+        let bg = "bg-light";
+        let text = "";
+        if (this.props.theme.mode === "dark") {
+            bg = "bg-dark";
+            text = "text-white";
+        }
+
+        let loadingSpinner = loading ? (
+            <div style={{ margin: "0 auto" }}>
+                <ClipLoader color={"#007BFF"} />
+            </div>
+        ) : (
+            tasks.map(task => (
+                <li
+                    className={`list-group-item d-flex justify-content-between align-items-center ${bg} ${text}`}
+                    key={task.id}
+                >
+                    {task.title}
+                    {/* Button to mark task as completed */}
+                    <button
+                        className="btn btn-primary btn-sm"
+                        onClick={this.handleMarkTaskAsCompleted.bind(
+                            this,
+                            task.id
+                        )}
+                    >
+                        Mark as completed
+                    </button>
+                </li>
+            ))
+        );
+
         return (
             <div className="container py-4">
                 <div className="row justify-content-center">
                     <div className="col-md-8">
-                        <div className="card">
+                        <div
+                            className={`card border-primary ${
+                                this.props.theme.mode === "light"
+                                    ? "bg-light"
+                                    : "bg-dark text-white"
+                            }`}
+                        >
                             <div className="card-header">
                                 <strong>{project.name}</strong>
+                                <Link to="/" className="float-right">
+                                    <FaArrowLeft />
+                                </Link>
                             </div>
 
                             <div className="card-body">
@@ -95,7 +143,7 @@ class SingleProject extends Component {
                                         <input
                                             type="text"
                                             name="title"
-                                            className={`form-control ${
+                                            className={`form-control ${bg} ${text} border-primary ${
                                                 this.hasErrorFor("title")
                                                     ? "is-invalid"
                                                     : ""
@@ -119,25 +167,9 @@ class SingleProject extends Component {
                                     </div>
                                 </form>
                                 {/* Display project's current tasks */}
+
                                 <ul className="list-group mt-3">
-                                    {tasks.map(task => (
-                                        <li
-                                            className="list-group-item d-flex justify-content-between align-items-center"
-                                            key={task.id}
-                                        >
-                                            {task.title}
-                                            {/* Button to mark task as completed */}
-                                            <button
-                                                className="btn btn-primary btn-sm"
-                                                onClick={this.handleMarkTaskAsCompleted.bind(
-                                                    this,
-                                                    task.id
-                                                )}
-                                            >
-                                                Mark as completed
-                                            </button>
-                                        </li>
-                                    ))}
+                                    {loadingSpinner}
                                 </ul>
                             </div>
                         </div>
@@ -148,4 +180,7 @@ class SingleProject extends Component {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SingleProject);
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(withTheme(SingleProject));

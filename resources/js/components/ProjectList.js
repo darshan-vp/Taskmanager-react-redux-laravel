@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { mapStateToProps, mapDispatchToProps } from "../actions/listing";
 import { connect } from "react-redux";
 import { ClipLoader } from "react-spinners";
+import { withTheme } from "styled-components";
+
 // List all projects
 class ProjectList extends Component {
     // Send ajax request to get all project from database
@@ -11,9 +13,9 @@ class ProjectList extends Component {
     }
 
     render() {
-        console.log(this.props);
         const { projects, loading, error } = this.props;
-
+        let bg = this.props.theme.mode === "light" ? "light" : "dark";
+        let text = this.props.theme.mode === "light" ? "dark" : "light";
         let projectList = (
             <>
                 <Link className="btn btn-primary btn-sm mb-3" to="/create">
@@ -23,7 +25,7 @@ class ProjectList extends Component {
                     {projects !== "undefined"
                         ? projects.map(project => (
                               <Link
-                                  className="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
+                                  className={`list-group-item list-group-item-action d-flex justify-content-between align-items-center bg-${bg} text-${text}`}
                                   to={`/${project.id}`}
                                   key={project.id}
                               >
@@ -49,14 +51,25 @@ class ProjectList extends Component {
 
         // Show loader while loading getting projects from API
         if (loading) {
-            projectList = <ClipLoader />;
+            projectList = (
+                <center>
+                    <ClipLoader color={"#007BFF"} />
+                </center>
+            );
         }
 
         return (
             <div className="container py-4">
                 <div className="row justify-content-center">
                     <div className="col-md-8">
-                        <div className="card">
+                        <div
+                            className={`card border-primary mb-3
+                                ${
+                                    this.props.theme.mode === "light"
+                                        ? "bg-light "
+                                        : "text-white bg-dark"
+                                }`}
+                        >
                             <div className="card-header">
                                 <strong>All Projects</strong>
                             </div>
@@ -79,4 +92,7 @@ class ProjectList extends Component {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProjectList);
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(withTheme(ProjectList));

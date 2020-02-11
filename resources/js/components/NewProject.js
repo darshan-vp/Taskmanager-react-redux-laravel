@@ -1,7 +1,10 @@
 import React, { Component } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 import { connect } from "react-redux";
+import { FaArrowLeft } from "react-icons/fa";
 import { mapStateToProps, mapDispatchToProps } from "../actions/projectCreate";
+import { withTheme } from "styled-components";
 
 class NewProject extends Component {
     constructor(props) {
@@ -11,7 +14,6 @@ class NewProject extends Component {
         this.renderErrorFor = this.renderErrorFor.bind(this);
     }
     componentDidMount() {
-        console.log("cdm new project create");
         this.props.loadForm();
     }
     /**
@@ -60,14 +62,23 @@ class NewProject extends Component {
     }
 
     render() {
-        console.log("render newProject");
+        let bg = "bg-light";
+        let text = "";
+        if (this.props.theme.mode === "dark") {
+            bg = "bg-dark";
+            text = "text-white";
+        }
+
         return (
             <div className="container py-4">
                 <div className="row justify-content-center">
                     <div className="col-md-6">
-                        <div className="card">
+                        <div className={`card border-primary ${bg} ${text}`}>
                             <div className="card-header">
                                 <strong>Create new project</strong>
+                                <Link to="/" className="float-right">
+                                    <FaArrowLeft />
+                                </Link>
                             </div>
                             <div className="card-body">
                                 <form onSubmit={this.handleCreateNewProject}>
@@ -78,7 +89,7 @@ class NewProject extends Component {
                                         <input
                                             id="name"
                                             type="text"
-                                            className={`form-control ${
+                                            className={`form-control border-primary ${bg} ${text} ${
                                                 this.hasErrorFor("name")
                                                     ? "is-invalid"
                                                     : ""
@@ -99,7 +110,7 @@ class NewProject extends Component {
                                         </label>
                                         <textarea
                                             id="description"
-                                            className={`form-control ${
+                                            className={`form-control border-primary ${bg} ${text} ${
                                                 this.hasErrorFor("description")
                                                     ? "is-invalid"
                                                     : ""
@@ -127,4 +138,7 @@ class NewProject extends Component {
         );
     }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(NewProject);
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(withTheme(NewProject));

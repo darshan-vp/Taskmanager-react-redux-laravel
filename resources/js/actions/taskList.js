@@ -3,7 +3,8 @@ import {
     INPUT_TASK,
     ADD_TASK,
     ADD_TASK_VALIDATION_ERRORS,
-    MARK_TASK_COMPLETE
+    MARK_TASK_COMPLETE,
+    INITIAL_LOAD_TASK
 } from "../constants";
 
 const getTasksAction = project => {
@@ -41,14 +42,24 @@ const markTaskAsCompletedAction = taskId => {
     };
 };
 
+const intialLoadTaskAction = projectId => {
+    return (dispatch, getState) => {
+        dispatch({ type: INITIAL_LOAD_TASK });
+
+        axios.get(`/api/projects/${projectId}`).then(response => {
+            setTimeout(() => {
+                dispatch(getTasksAction(response.data));
+            }, 2000);
+        });
+    };
+};
+
 export const mapStateToProps = ({ listTasks }) => listTasks;
 
 export const mapDispatchToProps = dispatch => {
     return {
-        getTasks: projectId => {
-            axios.get(`/api/projects/${projectId}`).then(response => {
-                dispatch(getTasksAction(response.data));
-            });
+        initialLoadingAsync: projectId => {
+            dispatch(intialLoadTaskAction(projectId));
         },
         inputTask: task => {
             dispatch(inputTaskAction(task));
