@@ -73,11 +73,15 @@ class NewProject extends Component {
             <div className="container py-4">
                 <div className="row justify-content-center">
                     <div className="col-md-6">
-                        <div className={`card border-primary ${bg} ${text}`}>
+                        <div
+                            className={`card border-${this.props.theme.skin} ${bg} ${text}`}
+                        >
                             <div className="card-header">
                                 <strong>Create new project</strong>
                                 <Link to="/" className="float-right">
-                                    <FaArrowLeft />
+                                    <FaArrowLeft
+                                        className={`text-${this.props.theme.skin}`}
+                                    />
                                 </Link>
                             </div>
                             <div className="card-body">
@@ -89,7 +93,9 @@ class NewProject extends Component {
                                         <input
                                             id="name"
                                             type="text"
-                                            className={`form-control border-primary ${bg} ${text} ${
+                                            className={`form-control border-${
+                                                this.props.theme.skin
+                                            } ${bg} ${text} ${
                                                 this.hasErrorFor("name")
                                                     ? "is-invalid"
                                                     : ""
@@ -110,7 +116,9 @@ class NewProject extends Component {
                                         </label>
                                         <textarea
                                             id="description"
-                                            className={`form-control border-primary ${bg} ${text} ${
+                                            className={`form-control border-${
+                                                this.props.theme.skin
+                                            } ${bg} ${text} ${
                                                 this.hasErrorFor("description")
                                                     ? "is-invalid"
                                                     : ""
@@ -126,7 +134,9 @@ class NewProject extends Component {
                                         />
                                         {this.renderErrorFor("description")}
                                     </div>
-                                    <button className="btn btn-success">
+                                    <button
+                                        className={`btn btn-${this.props.theme.skin}`}
+                                    >
                                         Create
                                     </button>
                                 </form>

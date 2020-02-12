@@ -9,6 +9,7 @@ export const ThemeToggleContext = createContext();
 export const MyThemeProvider = ({ children }) => {
     // Set initial them state to light mode
     const [themeState, setThemeState] = useState({ mode: "light" });
+    const [skin, setSkin] = useState("primary");
 
     // styled-component to set background color and text color according to theme selected
     // this will create new component with mentioned styles
@@ -23,12 +24,16 @@ export const MyThemeProvider = ({ children }) => {
         setThemeState({ mode });
     };
 
+    const toggleSkin = skin => {
+        setSkin(skin);
+    };
+
     return (
         // Provider component with value property set to toggle function so this function can called from anywhere
         // in the consumer
-        <ThemeToggleContext.Provider value={{ toggle }}>
+        <ThemeToggleContext.Provider value={{ toggle, toggleSkin }}>
             {/* this is provided by styled-component theme prop is compulsory here*/}
-            <ThemeProvider theme={{ mode: themeState.mode }}>
+            <ThemeProvider theme={{ mode: themeState.mode, skin }}>
                 <Wrapper>{children}</Wrapper>
             </ThemeProvider>
         </ThemeToggleContext.Provider>

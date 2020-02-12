@@ -4,7 +4,7 @@ import { mapStateToProps, mapDispatchToProps } from "../actions/taskList";
 import { connect } from "react-redux";
 import { FaArrowLeft } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import { ClipLoader } from "react-spinners";
+import { Spinner } from "../spinner";
 import { withTheme } from "styled-components";
 
 class SingleProject extends Component {
@@ -20,7 +20,6 @@ class SingleProject extends Component {
 
     componentDidMount() {
         // Get projectId from URL
-        console.log("componentDidMount");
         const projectId = this.props.match.params.id;
         // Show loader and Fetch Task
         this.props.initialLoadingAsync(projectId);
@@ -85,7 +84,7 @@ class SingleProject extends Component {
 
         let loadingSpinner = loading ? (
             <div style={{ margin: "0 auto" }}>
-                <ClipLoader color={"#007BFF"} />
+                <Spinner skin={this.props.theme.skin} />
             </div>
         ) : (
             tasks.map(task => (
@@ -96,7 +95,7 @@ class SingleProject extends Component {
                     {task.title}
                     {/* Button to mark task as completed */}
                     <button
-                        className="btn btn-primary btn-sm"
+                        className={`btn btn-sm btn-${this.props.theme.skin}`}
                         onClick={this.handleMarkTaskAsCompleted.bind(
                             this,
                             task.id
@@ -113,7 +112,7 @@ class SingleProject extends Component {
                 <div className="row justify-content-center">
                     <div className="col-md-8">
                         <div
-                            className={`card border-primary ${
+                            className={`card border-${this.props.theme.skin} ${
                                 this.props.theme.mode === "light"
                                     ? "bg-light"
                                     : "bg-dark text-white"
@@ -122,7 +121,9 @@ class SingleProject extends Component {
                             <div className="card-header">
                                 <strong>{project.name}</strong>
                                 <Link to="/" className="float-right">
-                                    <FaArrowLeft />
+                                    <FaArrowLeft
+                                        className={`text-${this.props.theme.skin}`}
+                                    />
                                 </Link>
                             </div>
 
@@ -130,7 +131,7 @@ class SingleProject extends Component {
                                 <p>{project.description}</p>
                                 {/* Button to mark project as completed */}
                                 <button
-                                    className="btn btn-primary btn-sm"
+                                    className={`btn btn-${this.props.theme.skin} btn-sm`}
                                     onClick={this.handleMarkProjectAsCompleted}
                                 >
                                     Mark as completed
@@ -143,7 +144,9 @@ class SingleProject extends Component {
                                         <input
                                             type="text"
                                             name="title"
-                                            className={`form-control ${bg} ${text} border-primary ${
+                                            className={`form-control ${bg} ${text} border-${
+                                                this.props.theme.skin
+                                            } ${
                                                 this.hasErrorFor("title")
                                                     ? "is-invalid"
                                                     : ""
@@ -158,7 +161,9 @@ class SingleProject extends Component {
                                         />
 
                                         <div className="input-group-append">
-                                            <button className="btn btn-success">
+                                            <button
+                                                className={`btn btn-${this.props.theme.skin}`}
+                                            >
                                                 Add
                                             </button>
                                         </div>
