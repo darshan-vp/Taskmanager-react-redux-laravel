@@ -15,14 +15,20 @@ export default class App extends Component {
             <Provider store={store}>
                 <BrowserRouter>
                     <div>
-                        <ThemeToggleContext.Consumer>
-                            {value => <Header toggleFunc={value} />}
-                        </ThemeToggleContext.Consumer>
-                        <Switch>
-                            <Route exact path="/" component={ProjectsList} />
-                            <Route path="/create" component={NewProject} />
-                            <Route path="/:id" component={SingleProject} />
-                        </Switch>
+                        <MyThemeProvider>
+                            <ThemeToggleContext.Consumer>
+                                {value => <Header toggleFunc={value} />}
+                            </ThemeToggleContext.Consumer>
+                            <Switch>
+                                <Route
+                                    exact
+                                    path="/"
+                                    component={ProjectsList}
+                                />
+                                <Route path="/create" component={NewProject} />
+                                <Route path="/:id" component={SingleProject} />
+                            </Switch>
+                        </MyThemeProvider>
                     </div>
                 </BrowserRouter>
             </Provider>
@@ -31,10 +37,5 @@ export default class App extends Component {
 }
 
 if (document.getElementById("app")) {
-    ReactDOM.render(
-        <MyThemeProvider>
-            <App />
-        </MyThemeProvider>,
-        document.getElementById("app")
-    );
+    ReactDOM.render(<App />, document.getElementById("app"));
 }

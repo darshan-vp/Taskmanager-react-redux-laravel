@@ -13,14 +13,14 @@ class ProjectList extends Component {
     }
 
     render() {
-        const { projects, loading, error } = this.props;
-        let bg = this.props.theme.mode === "light" ? "light" : "dark";
-        let text = this.props.theme.mode === "light" ? "dark" : "light";
+        const { projects, loading, error, theme } = this.props;
+        let bg = theme.mode;
+        let text = bg === "light" ? "dark" : "light";
 
         let projectList = (
             <>
                 <Link
-                    className={`btn btn-${this.props.theme.skin} btn-sm mb-3`}
+                    className={`btn btn-${theme.skin} btn-sm mb-3`}
                     to="/create"
                 >
                     Create new Project
@@ -35,7 +35,7 @@ class ProjectList extends Component {
                               >
                                   {project.name}
                                   <span
-                                      className={`badge badge-${this.props.theme.skin} badge-pill`}
+                                      className={`badge badge-${theme.skin} badge-pill`}
                                   >
                                       {project.tasks_count}
                                   </span>
@@ -59,7 +59,7 @@ class ProjectList extends Component {
         if (loading) {
             projectList = (
                 <center>
-                    <Spinner skin={this.props.theme.skin} />
+                    <Spinner skin={theme.skin} />
                 </center>
             );
         }
@@ -69,11 +69,9 @@ class ProjectList extends Component {
                 <div className="row justify-content-center">
                     <div className="col-md-8">
                         <div
-                            className={`card border-${
-                                this.props.theme.skin
-                            } mb-3
+                            className={`card border-${theme.skin} mb-3
                                 ${
-                                    this.props.theme.mode === "light"
+                                    theme.mode === "light"
                                         ? "bg-light "
                                         : "text-white bg-dark"
                                 }`}

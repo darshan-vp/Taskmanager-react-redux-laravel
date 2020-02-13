@@ -8,27 +8,15 @@ import { Spinner } from "../spinner";
 import { withTheme } from "styled-components";
 
 class SingleProject extends Component {
-    constructor(props) {
-        super(props);
-        this.handleAddNewTask = this.handleAddNewTask.bind(this);
-        this.hasErrorFor = this.hasErrorFor.bind(this);
-        this.renderErrorFor = this.renderErrorFor.bind(this);
-        this.handleMarkProjectAsCompleted = this.handleMarkProjectAsCompleted.bind(
-            this
-        );
-    }
-
     componentDidMount() {
         // Get projectId from URL
         const projectId = this.props.match.params.id;
         // Show loader and Fetch Task
         this.props.initialLoadingAsync(projectId);
-
-        // this.props.getTasks(projectId);
     }
 
     // Add new task in project
-    handleAddNewTask(event) {
+    handleAddNewTask = event => {
         event.preventDefault();
         const task = {
             title: this.props.title,
@@ -43,13 +31,13 @@ class SingleProject extends Component {
             .catch(error => {
                 this.props.addTaskErrors(error.response.data.errors);
             });
-    }
+    };
 
-    hasErrorFor(field) {
+    hasErrorFor = field => {
         return !!this.props.errors[field];
-    }
+    };
 
-    renderErrorFor(field) {
+    renderErrorFor = field => {
         if (this.hasErrorFor(field)) {
             return (
                 <span className="invalid-feedback">
@@ -57,21 +45,21 @@ class SingleProject extends Component {
                 </span>
             );
         }
-    }
+    };
 
-    handleMarkProjectAsCompleted() {
+    handleMarkProjectAsCompleted = () => {
         const { history } = this.props;
 
         axios
             .put(`/api/projects/${this.props.project.id}`)
             .then(response => history.push("/"));
-    }
+    };
 
-    handleMarkTaskAsCompleted(taskId) {
+    handleMarkTaskAsCompleted = taskId => {
         axios.put(`/api/tasks/${taskId}`).then(response => {
             this.props.markTaskAsCompleted(taskId);
         });
-    }
+    };
 
     render() {
         const { project, tasks, loading } = this.props;

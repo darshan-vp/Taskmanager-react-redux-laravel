@@ -1,9 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { FaToggleOff, FaToggleOn, FaSquare, FaRegCircle } from "react-icons/fa";
+import { FaToggleOff, FaToggleOn, FaSquare } from "react-icons/fa";
 import { withTheme } from "styled-components";
-import $ from "jquery";
-import Popper from "@popperjs/core";
 
 const Header = props => {
     const skins = [
@@ -18,6 +16,7 @@ const Header = props => {
     const square = skins.map(skin => {
         return (
             <FaSquare
+                style={{ cursor: "pointer" }}
                 key={skin}
                 className={`text-${skin} colored-square border rounded ${
                     props.theme.skin === skin ? "border-white" : "border-dark"
@@ -25,6 +24,9 @@ const Header = props => {
                 onClick={() => {
                     props.toggleFunc.toggleSkin(skin);
                 }}
+                data-toggle="tooltip"
+                data-placement="bottom"
+                title={skin.toUpperCase()}
             />
         );
     });
@@ -41,9 +43,8 @@ const Header = props => {
                 <div className="col-1">
                     {props.theme.mode === "light" ? (
                         <FaToggleOff
-                            className="float-right"
+                            className="float-right text-white"
                             style={{
-                                color: "white",
                                 width: "30",
                                 height: "30",
                                 cursor: "pointer"
@@ -55,9 +56,8 @@ const Header = props => {
                         />
                     ) : (
                         <FaToggleOn
-                            className="float-right"
+                            className="float-right text-white"
                             style={{
-                                color: "white",
                                 width: "30",
                                 height: "30",
                                 cursor: "pointer"

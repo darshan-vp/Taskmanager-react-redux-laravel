@@ -7,19 +7,14 @@ import { mapStateToProps, mapDispatchToProps } from "../actions/projectCreate";
 import { withTheme } from "styled-components";
 
 class NewProject extends Component {
-    constructor(props) {
-        super(props);
-        this.handleCreateNewProject = this.handleCreateNewProject.bind(this);
-        this.hasErrorFor = this.hasErrorFor.bind(this);
-        this.renderErrorFor = this.renderErrorFor.bind(this);
-    }
     componentDidMount() {
         this.props.loadForm();
     }
     /**
      * Post Form data with ajax
      */
-    handleCreateNewProject(event) {
+
+    handleCreateNewProject = event => {
         event.preventDefault();
 
         const { history } = this.props;
@@ -43,15 +38,15 @@ class NewProject extends Component {
                 // dipatch validation error action with errors
                 this.props.projectValidationErrors(error.response.data.errors);
             });
-    }
+    };
 
     // check if field has error or not
-    hasErrorFor(field) {
+    hasErrorFor = field => {
         return !!this.props.errors[field];
-    }
+    };
 
     // Display error message in UI if validation error occured
-    renderErrorFor(field) {
+    renderErrorFor = field => {
         if (this.hasErrorFor(field)) {
             return (
                 <span className="invalid-feedback">
@@ -59,7 +54,7 @@ class NewProject extends Component {
                 </span>
             );
         }
-    }
+    };
 
     render() {
         let bg = "bg-light";

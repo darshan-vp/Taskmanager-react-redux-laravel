@@ -10,6 +10,7 @@
         "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
     },
     "devDependencies": {
+        "@babel/plugin-proposal-class-properties": "^7.8.3",
         "@babel/preset-react": "^7.0.0",
         "axios": "^0.19.2",
         "cross-env": "^5.1",
@@ -19,7 +20,8 @@
         "react-dom": "^16.2.0",
         "resolve-url-loader": "^2.3.1",
         "sass": "^1.15.2",
-        "sass-loader": "^8.0.0"
+        "sass-loader": "^8.0.0",
+        "webpack-livereload-plugin": "^1.2.0"
     },
     "dependencies": {
         "@popperjs/core": "^2.0.6",
@@ -33,5 +35,14 @@
         "redux-thunk": "^2.3.0",
         "styled-components": "^5.0.1",
         "styled-theming": "^2.2.0"
+    },
+    "babel": {
+        "presets": [
+            "@babel/preset-env",
+            "@babel/preset-react"
+        ],
+        "plugins": [
+            "@babel/plugin-proposal-class-properties"
+        ]
     }
 }

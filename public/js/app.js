@@ -82027,7 +82027,7 @@ function (_Component) {
     value: function render() {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_redux__WEBPACK_IMPORTED_MODULE_7__["Provider"], {
         store: _store__WEBPACK_IMPORTED_MODULE_8__["store"]
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["BrowserRouter"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_context_ThemeContext__WEBPACK_IMPORTED_MODULE_9__["ThemeToggleContext"].Consumer, null, function (value) {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["BrowserRouter"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_context_ThemeContext__WEBPACK_IMPORTED_MODULE_9__["MyThemeProvider"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_context_ThemeContext__WEBPACK_IMPORTED_MODULE_9__["ThemeToggleContext"].Consumer, null, function (value) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Header__WEBPACK_IMPORTED_MODULE_3__["default"], {
           toggleFunc: value
         });
@@ -82041,7 +82041,7 @@ function (_Component) {
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
         path: "/:id",
         component: _SingleProject__WEBPACK_IMPORTED_MODULE_6__["default"]
-      })))));
+      }))))));
     }
   }]);
 
@@ -82051,7 +82051,7 @@ function (_Component) {
 
 
 if (document.getElementById("app")) {
-  react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_context_ThemeContext__WEBPACK_IMPORTED_MODULE_9__["MyThemeProvider"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(App, null)), document.getElementById("app"));
+  react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(App, null), document.getElementById("app"));
 }
 
 /***/ }),
@@ -82070,11 +82070,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 /* harmony import */ var react_icons_fa__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-icons/fa */ "./node_modules/react-icons/fa/index.esm.js");
 /* harmony import */ var styled_components__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js");
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _popperjs_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @popperjs/core */ "./node_modules/@popperjs/core/lib/popper.js");
-
-
 
 
 
@@ -82084,11 +82079,17 @@ var Header = function Header(props) {
   var skins = ["primary", "secondary", "danger", "success", "warning", "info"];
   var square = skins.map(function (skin) {
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_2__["FaSquare"], {
+      style: {
+        cursor: "pointer"
+      },
       key: skin,
       className: "text-".concat(skin, " colored-square border rounded ").concat(props.theme.skin === skin ? "border-white" : "border-dark"),
       onClick: function onClick() {
         props.toggleFunc.toggleSkin(skin);
-      }
+      },
+      "data-toggle": "tooltip",
+      "data-placement": "bottom",
+      title: skin.toUpperCase()
     });
   });
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("nav", {
@@ -82105,9 +82106,8 @@ var Header = function Header(props) {
   }, square), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "col-1"
   }, props.theme.mode === "light" ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_2__["FaToggleOff"], {
-    className: "float-right",
+    className: "float-right text-white",
     style: {
-      color: "white",
       width: "30",
       height: "30",
       cursor: "pointer"
@@ -82117,9 +82117,8 @@ var Header = function Header(props) {
       props.toggleFunc.toggle();
     }
   }) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_2__["FaToggleOn"], {
-    className: "float-right",
+    className: "float-right text-white",
     style: {
-      color: "white",
       width: "30",
       height: "30",
       cursor: "pointer"
@@ -82171,6 +82170,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 
@@ -82184,15 +82185,52 @@ var NewProject =
 function (_Component) {
   _inherits(NewProject, _Component);
 
-  function NewProject(props) {
+  function NewProject() {
+    var _getPrototypeOf2;
+
     var _this;
 
     _classCallCheck(this, NewProject);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(NewProject).call(this, props));
-    _this.handleCreateNewProject = _this.handleCreateNewProject.bind(_assertThisInitialized(_this));
-    _this.hasErrorFor = _this.hasErrorFor.bind(_assertThisInitialized(_this));
-    _this.renderErrorFor = _this.renderErrorFor.bind(_assertThisInitialized(_this));
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    _this = _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(NewProject)).call.apply(_getPrototypeOf2, [this].concat(args)));
+
+    _defineProperty(_assertThisInitialized(_this), "handleCreateNewProject", function (event) {
+      event.preventDefault();
+      var history = _this.props.history;
+      var project = {
+        name: _this.props.name,
+        description: _this.props.description
+      };
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.post("/api/projects", project).then(function (response) {
+        // dispatch project created success action
+        _this.props.projectCreateSuccess(); // redirect to the homepage
+
+
+        history.push("/");
+      }) // If validation error occurs then we will set them in state
+      // So that later we can use them in display in UI
+      ["catch"](function (error) {
+        // dipatch validation error action with errors
+        _this.props.projectValidationErrors(error.response.data.errors);
+      });
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "hasErrorFor", function (field) {
+      return !!_this.props.errors[field];
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "renderErrorFor", function (field) {
+      if (_this.hasErrorFor(field)) {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+          className: "invalid-feedback"
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("strong", null, _this.props.errors[field][0]));
+      }
+    });
+
     return _this;
   }
 
@@ -82206,49 +82244,9 @@ function (_Component) {
      */
 
   }, {
-    key: "handleCreateNewProject",
-    value: function handleCreateNewProject(event) {
-      var _this2 = this;
-
-      event.preventDefault();
-      var history = this.props.history;
-      var project = {
-        name: this.props.name,
-        description: this.props.description
-      };
-      axios__WEBPACK_IMPORTED_MODULE_1___default.a.post("/api/projects", project).then(function (response) {
-        // dispatch project created success action
-        _this2.props.projectCreateSuccess(); // redirect to the homepage
-
-
-        history.push("/");
-      }) // If validation error occurs then we will set them in state
-      // So that later we can use them in display in UI
-      ["catch"](function (error) {
-        // dipatch validation error action with errors
-        _this2.props.projectValidationErrors(error.response.data.errors);
-      });
-    } // check if field has error or not
-
-  }, {
-    key: "hasErrorFor",
-    value: function hasErrorFor(field) {
-      return !!this.props.errors[field];
-    } // Display error message in UI if validation error occured
-
-  }, {
-    key: "renderErrorFor",
-    value: function renderErrorFor(field) {
-      if (this.hasErrorFor(field)) {
-        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-          className: "invalid-feedback"
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("strong", null, this.props.errors[field][0]));
-      }
-    }
-  }, {
     key: "render",
     value: function render() {
-      var _this3 = this;
+      var _this2 = this;
 
       var bg = "bg-light";
       var text = "";
@@ -82288,7 +82286,7 @@ function (_Component) {
         name: "name",
         value: this.props.name,
         onChange: function onChange(e) {
-          return _this3.props.changeNameState(e.target.value);
+          return _this2.props.changeNameState(e.target.value);
         }
       }), this.renderErrorFor("name")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
@@ -82301,7 +82299,7 @@ function (_Component) {
         rows: "10",
         value: this.props.description,
         onChange: function onChange(e) {
-          return _this3.props.changeDescState(e.target.value);
+          return _this2.props.changeDescState(e.target.value);
         }
       }), this.renderErrorFor("description")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: "btn btn-".concat(this.props.theme.skin)
@@ -82377,16 +82375,15 @@ function (_Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this = this;
-
       var _this$props = this.props,
           projects = _this$props.projects,
           loading = _this$props.loading,
-          error = _this$props.error;
-      var bg = this.props.theme.mode === "light" ? "light" : "dark";
-      var text = this.props.theme.mode === "light" ? "dark" : "light";
+          error = _this$props.error,
+          theme = _this$props.theme;
+      var bg = theme.mode;
+      var text = bg === "light" ? "dark" : "light";
       var projectList = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
-        className: "btn btn-".concat(this.props.theme.skin, " btn-sm mb-3"),
+        className: "btn btn-".concat(theme.skin, " btn-sm mb-3"),
         to: "/create"
       }, "Create new Project"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
         className: "list-group list-group-flush"
@@ -82396,7 +82393,7 @@ function (_Component) {
           to: "/".concat(project.id),
           key: project.id
         }, project.name, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-          className: "badge badge-".concat(_this.props.theme.skin, " badge-pill")
+          className: "badge badge-".concat(theme.skin, " badge-pill")
         }, project.tasks_count));
       }) : null)); // display projects only if they are available in db
 
@@ -82411,7 +82408,7 @@ function (_Component) {
 
       if (loading) {
         projectList = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("center", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_spinner__WEBPACK_IMPORTED_MODULE_5__["Spinner"], {
-          skin: this.props.theme.skin
+          skin: theme.skin
         }));
       }
 
@@ -82422,7 +82419,7 @@ function (_Component) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-md-8"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "card border-".concat(this.props.theme.skin, " mb-3\n                                ").concat(this.props.theme.mode === "light" ? "bg-light " : "text-white bg-dark")
+        className: "card border-".concat(theme.skin, " mb-3\n                                ").concat(theme.mode === "light" ? "bg-light " : "text-white bg-dark")
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "card-header"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("strong", null, "All Projects")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -82479,6 +82476,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 
@@ -82493,16 +82492,57 @@ var SingleProject =
 function (_Component) {
   _inherits(SingleProject, _Component);
 
-  function SingleProject(props) {
+  function SingleProject() {
+    var _getPrototypeOf2;
+
     var _this;
 
     _classCallCheck(this, SingleProject);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(SingleProject).call(this, props));
-    _this.handleAddNewTask = _this.handleAddNewTask.bind(_assertThisInitialized(_this));
-    _this.hasErrorFor = _this.hasErrorFor.bind(_assertThisInitialized(_this));
-    _this.renderErrorFor = _this.renderErrorFor.bind(_assertThisInitialized(_this));
-    _this.handleMarkProjectAsCompleted = _this.handleMarkProjectAsCompleted.bind(_assertThisInitialized(_this));
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    _this = _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(SingleProject)).call.apply(_getPrototypeOf2, [this].concat(args)));
+
+    _defineProperty(_assertThisInitialized(_this), "handleAddNewTask", function (event) {
+      event.preventDefault();
+      var task = {
+        title: _this.props.title,
+        project_id: _this.props.project.id
+      };
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("/api/tasks", task).then(function (response) {
+        _this.props.addTask(response.data);
+      })["catch"](function (error) {
+        _this.props.addTaskErrors(error.response.data.errors);
+      });
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "hasErrorFor", function (field) {
+      return !!_this.props.errors[field];
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "renderErrorFor", function (field) {
+      if (_this.hasErrorFor(field)) {
+        return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
+          className: "invalid-feedback"
+        }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("strong", null, _this.props.errors[field][0]));
+      }
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "handleMarkProjectAsCompleted", function () {
+      var history = _this.props.history;
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.put("/api/projects/".concat(_this.props.project.id)).then(function (response) {
+        return history.push("/");
+      });
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "handleMarkTaskAsCompleted", function (taskId) {
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.put("/api/tasks/".concat(taskId)).then(function (response) {
+        _this.props.markTaskAsCompleted(taskId);
+      });
+    });
+
     return _this;
   }
 
@@ -82512,60 +82552,13 @@ function (_Component) {
       // Get projectId from URL
       var projectId = this.props.match.params.id; // Show loader and Fetch Task
 
-      this.props.initialLoadingAsync(projectId); // this.props.getTasks(projectId);
+      this.props.initialLoadingAsync(projectId);
     } // Add new task in project
 
   }, {
-    key: "handleAddNewTask",
-    value: function handleAddNewTask(event) {
-      var _this2 = this;
-
-      event.preventDefault();
-      var task = {
-        title: this.props.title,
-        project_id: this.props.project.id
-      };
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("/api/tasks", task).then(function (response) {
-        _this2.props.addTask(response.data);
-      })["catch"](function (error) {
-        _this2.props.addTaskErrors(error.response.data.errors);
-      });
-    }
-  }, {
-    key: "hasErrorFor",
-    value: function hasErrorFor(field) {
-      return !!this.props.errors[field];
-    }
-  }, {
-    key: "renderErrorFor",
-    value: function renderErrorFor(field) {
-      if (this.hasErrorFor(field)) {
-        return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
-          className: "invalid-feedback"
-        }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("strong", null, this.props.errors[field][0]));
-      }
-    }
-  }, {
-    key: "handleMarkProjectAsCompleted",
-    value: function handleMarkProjectAsCompleted() {
-      var history = this.props.history;
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.put("/api/projects/".concat(this.props.project.id)).then(function (response) {
-        return history.push("/");
-      });
-    }
-  }, {
-    key: "handleMarkTaskAsCompleted",
-    value: function handleMarkTaskAsCompleted(taskId) {
-      var _this3 = this;
-
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.put("/api/tasks/".concat(taskId)).then(function (response) {
-        _this3.props.markTaskAsCompleted(taskId);
-      });
-    }
-  }, {
     key: "render",
     value: function render() {
-      var _this4 = this;
+      var _this2 = this;
 
       var _this$props = this.props,
           project = _this$props.project,
@@ -82590,8 +82583,8 @@ function (_Component) {
           className: "list-group-item d-flex justify-content-between align-items-center ".concat(bg, " ").concat(text),
           key: task.id
         }, task.title, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
-          className: "btn btn-sm btn-".concat(_this4.props.theme.skin),
-          onClick: _this4.handleMarkTaskAsCompleted.bind(_this4, task.id)
+          className: "btn btn-sm btn-".concat(_this2.props.theme.skin),
+          onClick: _this2.handleMarkTaskAsCompleted.bind(_this2, task.id)
         }, "Mark as completed"));
       });
       return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
@@ -82625,7 +82618,7 @@ function (_Component) {
         placeholder: "Task title",
         value: this.props.title,
         onChange: function onChange(e) {
-          _this4.props.inputTask(e.target.value);
+          _this2.props.inputTask(e.target.value);
         }
       }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "input-group-append"
@@ -83008,7 +83001,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var Spinner = function Spinner(props) {
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    "class": "spinner-border text-".concat(props.skin),
+    className: "spinner-border text-".concat(props.skin),
     role: "status"
   });
 };
